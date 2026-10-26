@@ -119,3 +119,36 @@ def count_long_movies(movies, threshold=120):
 #print_non_comedies(movies)
 #find_masterpiece(movies)
 #print(count_long_movies(movies))
+
+#Этап №4 Строки
+
+
+def normalize_title(title):
+    words = title.split()
+    result = []
+    for word in words:
+        capitalized_word = word[0].upper() + word[1:]
+        result.append(capitalized_word)
+    return " ".join(result)
+
+
+def make_slug(title):
+    normalized = normalize_title(title) 
+    lower_title = normalized.lower()
+    return lower_title.replace(' ', '-')
+
+
+def format_report_line(movie):
+    title = movie["title"]
+    year = movie["year"]
+    rating = movie["rating"]
+    title = normalize_title(movie['title'])
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+    return f'"{title}" ({year}) - {rating}/10, {duration}, жанры: {genres}'
+
+
+print(normalize_title("silent hours"))
+print(make_slug("The Quiet Algorithm"))
+print(format_report_line(movies[5]))
+
