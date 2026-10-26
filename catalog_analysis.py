@@ -89,14 +89,14 @@ def decade_label(year):
 #print(decade_label(2018))
 
 
-def print_non_comedies (movies):
+def print_non_comedies(movies):
     for movie in movies:
         if 'comedy' in movie['genres']:
             continue
         print(movie['title'])
 
 
-def find_masterpiece (movies):
+def find_masterpiece(movies):
     index = 0
     while index < len(movies):
         if movies [index]['rating'] > 9.0:
@@ -138,7 +138,7 @@ def make_slug(title):
     return lower_title.replace(' ', '-')
 
 
-def format_report_line (movie):
+def format_report_line(movie):
     year = movie["year"]
     rating = movie["rating"]
     title = normalize_title( movie['title'])
@@ -147,15 +147,15 @@ def format_report_line (movie):
     return f'"{title}" ({year}) - {rating}/10, {duration}, жанры: {genres}'
 
 
-print(normalize_title("silent hours"))
-print(make_slug("The Quiet Algorithm"))
-print(format_report_line(movies[5]))
+#print(normalize_title("silent hours"))
+#print(make_slug("The Quiet Algorithm"))
+#print(format_report_line(movies[5]))
 
 
 #Этап №5, Списки
 
 
-def titles_sorted_by_rating (movies):
+def titles_sorted_by_rating(movies):
     sorted_movies = sorted (movies, key=lambda movie: movie["rating"], reverse=True)
 
     result = []
@@ -177,3 +177,37 @@ def top_n_by_rating(movies, n=3):
 
 #print(titles_sorted_by_rating(movies))
 #print(top_n_by_rating(movies, 3))
+
+
+#Этап №6, Словари
+
+
+def count_by_genre(movies):
+    genre_counts = {}
+    for movie in movies:
+        for genre in movie['genres']:
+            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+    return genre_counts
+
+
+def actor_filmography(movies):
+    filmography = {}
+    for movie in movies:
+        title = normalize_title(movie["title"])
+        for actor in movie["actors"]:
+            actor_movies = filmography.get(actor, [])
+            actor_movies.append(title)
+            filmography[actor] = actor_movies
+    return filmography
+
+
+def high_rated_movies(movies):
+    avg_rating = average_rating(movies)
+    return {normalize_title(movie["title"]): movie["rating"]
+            for movie in movies
+            if movie["rating"] > avg_rating}
+
+
+print(count_by_genre(movies))
+print(actor_filmography(movies))
+print(high_rated_movies(movies))
