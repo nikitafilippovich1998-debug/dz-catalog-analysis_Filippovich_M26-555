@@ -1,5 +1,6 @@
 import math
 
+#Этап №1, Базовые функции
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
@@ -61,4 +62,28 @@ def duration_in_hours(minutes):
 #print(duration_in_hours(155))
 
 
+#Этап №2 Условия и math
 
+
+def rating_tier(rating):
+    if rating >= 9:
+        return 'шедевр'
+    elif rating >= 7:
+        return 'хорошо'
+    elif rating >= 5:
+        return 'средне' if rating >= 5 else 'слабо'
+    else:
+        return 'слабо'
+
+
+def decade_label(year):
+    match year:
+        case _ if year > 2020:
+            return 'новые'
+        case _ if year >= 2015:
+            return 'недавние'
+        case _:
+            return 'старые'
+
+print(rating_tier(8.5))
+print(decade_label(2018))
