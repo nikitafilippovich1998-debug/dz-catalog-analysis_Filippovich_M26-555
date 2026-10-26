@@ -62,7 +62,7 @@ def duration_in_hours(minutes):
 #print(duration_in_hours(155))
 
 
-#Этап №2 Условия и math
+#Этап №2 Условия и match
 
 
 def rating_tier(rating):
@@ -85,5 +85,37 @@ def decade_label(year):
         case _:
             return 'старые'
 
-print(rating_tier(8.5))
-print(decade_label(2018))
+#print(rating_tier(8.5))
+#print(decade_label(2018))
+
+
+def print_non_comedies (movies):
+    for movie in movies:
+        if 'comedy' in movie['genres']:
+            continue
+        print(movie['title'])
+
+
+def find_masterpiece (movies):
+    index = 0
+    while index < len(movies):
+        if movies [index]['rating'] > 9.0:
+            print(f'Найден шедевр: {movies[index]['title']}')
+            break
+        index += 1
+    else:
+        print('Шедевров не найдено')
+
+
+def count_long_movies(movies, threshold=120):
+    count = 0
+    for movie in movies:
+        if movie ['duration_min'] > threshold:
+            count += 1
+    return count
+
+
+#print('--- Проверка Этапа 3 ---')
+#print_non_comedies(movies)
+#find_masterpiece(movies)
+#print(count_long_movies(movies))
