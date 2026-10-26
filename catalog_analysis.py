@@ -138,13 +138,12 @@ def make_slug(title):
     return lower_title.replace(' ', '-')
 
 
-def format_report_line(movie):
-    title = movie["title"]
+def format_report_line (movie):
     year = movie["year"]
     rating = movie["rating"]
-    title = normalize_title(movie['title'])
-    duration = duration_in_hours(movie["duration_min"])
-    genres = ", ".join(sorted(movie["genres"]))
+    title = normalize_title( movie['title'])
+    duration = duration_in_hours (movie["duration_min"])
+    genres = ",".join(sorted (movie["genres"]))
     return f'"{title}" ({year}) - {rating}/10, {duration}, жанры: {genres}'
 
 
@@ -152,3 +151,29 @@ print(normalize_title("silent hours"))
 print(make_slug("The Quiet Algorithm"))
 print(format_report_line(movies[5]))
 
+
+#Этап №5, Списки
+
+
+def titles_sorted_by_rating (movies):
+    sorted_movies = sorted (movies, key=lambda movie: movie["rating"], reverse=True)
+
+    result = []
+    for movie in sorted_movies:
+        result.append(normalize_title(movie["title"]))
+    return result
+
+
+def top_n_by_rating(movies, n=3):
+    sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    top_movies = sorted_movies[:n]
+
+    result = []
+    for movie in top_movies:
+        movie_tuple = (normalize_title(movie["title"]), movie["rating"])
+        result.append(movie_tuple)
+    return result
+
+
+#print(titles_sorted_by_rating(movies))
+#print(top_n_by_rating(movies, 3))
