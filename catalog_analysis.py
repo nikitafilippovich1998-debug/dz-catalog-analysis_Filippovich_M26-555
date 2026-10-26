@@ -1,6 +1,8 @@
 import math
 
+
 #Этап №1, Базовые функции
+
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
@@ -33,17 +35,14 @@ def average_rating(movies):
     return round(medium_rating, 1)
 
 
-
 def catalog_age_stats(movies, current_year = 2026):
     oldest = 0
     newest = 100
     total_age = 0
     for movie in movies:
         age = current_year - movie['year']
-        if age > oldest:
-            oldest = age
-        if age < newest:
-            newest = age
+        oldest = max(oldest, age)
+        newest = min(newest, age)
         total_age += age
     medium_age = total_age / len(movies)
     medium_age = math.ceil(medium_age)
@@ -85,6 +84,7 @@ def decade_label(year):
         case _:
             return 'старые'
 
+
 #print(rating_tier(8.5))
 #print(decade_label(2018))
 
@@ -119,6 +119,7 @@ def count_long_movies(movies, threshold=120):
 #print_non_comedies(movies)
 #find_masterpiece(movies)
 #print(count_long_movies(movies))
+
 
 #Этап №4 Строки
 
@@ -215,6 +216,7 @@ def high_rated_movies(movies):
 
 #Этап 7, Множества
 
+
 def all_genres(movies):
     genres_set = set()
     for movie in movies:
@@ -258,7 +260,42 @@ total_duration = sum(movie["duration_min"] for movie in movies if movie["rating"
 # print(f"Суммарная длительность: {total_duration}")
 
 
-for movie in iter_high_rated(movies):
-    print(format_report_line(movie))
+# for movie in iter_high_rated(movies):
+#    print(format_report_line(movie))
 
+
+#Этап №9, Итоговый отчет
+
+
+def build_report(movies):
+    print("Отчет по каталогу")
+
+    print(f"Средний рейтинг: {average_rating(movies)}")
+
+    stats = catalog_age_stats(movies)
+    print(f"Средний возраст фильмов: {stats[2]} лет")
+    print()
+
+    print("Топ-3 фильма:")
+    top_3 = top_n_by_rating(movies, 3)
+    for title, rating in top_3:
+        for movie in movies:
+            if normalize_title(movie["title"]) == title:
+                print(f" {format_report_line(movie)}")
+                break
+    print()
+
+    print("Фильмов по жанрам:")
+    genre_counts = count_by_genre(movies)
+    sorted_genres = sorted(genre_counts.items(), key=lambda item: item[1], reverse=True)
+    for genre, count in sorted_genres:
+        print(f" {genre} - {count}")
+    print()
+
+    all_g = all_genres(movies)
+    genres_str = ", ".join(sorted(all_g))
+    print(f"Все жанры каталога: {genres_str}")
+
+if __name__ == "__main__":
+    build_report(movies)
 
