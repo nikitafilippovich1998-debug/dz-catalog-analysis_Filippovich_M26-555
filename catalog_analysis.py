@@ -208,6 +208,57 @@ def high_rated_movies(movies):
             if movie["rating"] > avg_rating}
 
 
-print(count_by_genre(movies))
-print(actor_filmography(movies))
-print(high_rated_movies(movies))
+#print(count_by_genre(movies))
+#print(actor_filmography(movies))
+#print(high_rated_movies(movies))
+
+
+#Этап 7, Множества
+
+def all_genres(movies):
+    genres_set = set()
+    for movie in movies:
+        genres_set.update(movie["genres"])
+    return genres_set
+
+
+def common_actors(movie1, movie2):
+    actors1 = set(movie1["actors"])
+    actors2 = set(movie2["actors"])
+    return actors1 & actors2
+
+
+def genres_only_in_one(movies_a, movies_b):
+    genres_a = set()
+    for movie in movies_a:
+        genres_a.update(movie["genres"])
+    genres_b = set()
+    for movie in movies_b:
+        genres_b.update(movie["genres"])
+    return genres_a - genres_b
+
+
+#print(all_genres(movies))
+#print(common_actors(movies[0], movies[3]))
+#print(genres_only_in_one(movies[5:6], movies[:5]))
+
+
+#Этап 8, Итераторы и генераторы
+
+
+def iter_high_rated(movies, min_rating=8.0):
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+
+total_duration = sum(movie["duration_min"] for movie in movies if movie["rating"] > 7)
+
+
+# print(f"Суммарная длительность: {total_duration}")
+
+
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+
+
